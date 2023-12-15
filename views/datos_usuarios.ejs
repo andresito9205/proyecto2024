@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Sistema de Reservas de Canchas</title>
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+ <style>
+   body {
+     background-color: #dff0d8; /* Un color verde claro para el fondo */
+   }
+   header {
+     text-align: center;
+     margin-top: 20px;
+   }
+   header h1 {
+     margin-bottom: 10px;
+   }
+   header h2 {
+     color: #777;
+   }
+   .btn-group {
+     margin-bottom: 20px;
+   }
+   .btn-success, .btn-warning {
+     width: 120px;
+   }
+   .table-responsive {
+     margin-top: 20px;
+   }
+   .btn-eliminar {
+     background-color: #d9534f; /* Cambia el color de fondo a rojo */
+     border-color: #d9534f;
+   }
+ </style>
+</head>
+<body>
+ <div class="container">
+   <header>
+     <h1 class="text-center my-4">Sistema de Reservas de Canchas</h1>
+     <h2 class="text-center mb-4">Administra tus reservas de canchas de manera eficiente</h2>
+   </header>
+
+   <div class="text-center mb-4">
+     <div class="btn-group">
+       <button id="btn-disponibles" class="btn btn-success">Disponibles</button>
+       <button id="btn-reservadas" class="btn btn-warning">Reservadas</button>
+     </div>
+   </div>
+
+   <div class="table-responsive">
+     <table id="reservas-table" class="table table-striped table-bordered mt-4">
+       <thead class="thead-dark">
+         <tr>
+           <th>ID</th>
+           <th>ID Cancha</th>
+           <th>Fecha Reserva</th>
+           <th>Hora Reserva</th>
+           <th>Reference Code</th>
+           <th>Acciones</th>
+         </tr>
+       </thead>
+       <tbody>
+         <% data.forEach(function(reserva) { %>
+           <tr>
+             <td><%= reserva.id %></td>
+             <td><%= reserva.id_cancha %></td>
+             <td><%= reserva.fecha_reserva %></td>
+             <td><%= reserva.hora_reserva %></td>
+             <td><%= reserva.reference_code %></td>
+             <td><button class="btn btn-danger btn-eliminar" data-id="<%= reserva.id %>">Eliminar</button></td>
+           </tr>
+         <% }); %>
+       </tbody>
+     </table>
+   </div>
+ </div>
+
+ <script>
+   document.addEventListener('DOMContentLoaded', function () {
+     document.getElementById('btn-disponibles').addEventListener('click', function () {
+       filtrarReservas('disponible');
+     });
+
+     document.getElementById('btn-reservadas').addEventListener('click', function () {
+       filtrarReservas('reservada');
+     });
+
+     document.querySelectorAll('.btn-eliminar').forEach(function (btnEliminar) {
+       btnEliminar.addEventListener('click', function () {
+         eliminarReserva(this.getAttribute('data-id'));
+       });
+     });
+   });
+
+   function filtrarReservas(estado) {
+     var reservas = <%- JSON.stringify(data) %>;
+     var reservasFiltradas = reservas.filter(function (reserva) {
+       return reserva.estado === estado;
+     });
+     actualizarTabla(reservasFiltradas);
+   }
+
+   function eliminarReserva(idReserva) {
+     fetch('/reservas/' + idReserva, {
+       method: 'DELETE',
+     })
+       .then(response => response.text())
+       .then(data => {
+         // Actualizar la tabla después de la eliminación
+         // Puedes hacer esto llamando a la función actualizarTabla()
+       });
+   }
+
+   function actualizarTabla(reservas) {
+     var table = document.getElementById('reservas-table');
+     while (table.rows.length > 1) {
+       table.deleteRow(1);
+     }
+     reservas.forEach(function (reserva) {
+       var row = table.insertRow();
+       var cell1 = row.insertCell(0);
+       var cell2 = row.insertCell(1);
+       var cell3 = row.insertCell(2);
+       var cell4 = row.insertCell(3);
+       var cell5 = row.insertCell(4);
+       var cell6 = row.insertCell(5);
+
+       cell1.innerHTML = reserva.id;
+       cell2.innerHTML = reserva.id_cancha;
+       cell3.innerHTML = reserva.fecha_reserva;
+       cell4.innerHTML = reserva.hora_reserva;
+       cell5.innerHTML = reserva.reference_code;
+       cell6.innerHTML = '<button class="btn btn-danger btn-eliminar" data-id="' + reserva.id + '">Eliminar</button>';
+     });
+   }
+ </script>
+</body>
+</html>

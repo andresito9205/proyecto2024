@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap">
+
+    <!-- Bootstrap CSS (Asegúrate de incluir la biblioteca de Bootstrap) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Estilos adicionales -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #eaf3eade;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .registration-container {
+            max-width: 400px;
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .registration-form {
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #336d32;
+        }
+
+        .registration-form h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #f8ca4d;
+        }
+
+        .registration-form label {
+            font-size: 14px;
+            color: #f8ca4d;
+        }
+
+        .registration-form input,
+        .registration-form select {
+            background-color: #fff;
+            border: none;
+            color: #336d32;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .registration-form button {
+            background-color: #f8ca4d;
+            color: #336d32;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .registration-form a {
+            color: #f8ca4d;
+            text-decoration: none;
+            margin-top: 15px;
+            display: block;
+        }
+
+        .success-message {
+            display: none;
+            background-color: #03a217;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            margin-top: 10px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .validation-icon {
+            font-size: 24px;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="registration-container">
+        <div class="registration-form">
+            <h2 class="text-bold mb-4">Regístrate</h2>
+            <form id="registrationForm" action="/register" method="POST" novalidate>
+                <div class="form-group">
+                    <label for="name">Nombre de Usuario</label>
+                    <input class="form-control" type="text" name="name" id="name" required>
+                    <div class="invalid-feedback">
+                        Por favor, ingresa un nombre de usuario.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="pass">Contraseña</label>
+                    <input class="form-control" type="password" name="pass" id="pass" required>
+                    <div class="invalid-feedback">
+                        Por favor, ingresa una contraseña.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="rol">Rol</label>
+                    <select class="form-control" name="rol" required>
+                        <option value="Admin">Admin</option>
+                        <option value="Usuario">Usuario</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Por favor, selecciona un rol.
+                    </div>
+                </div>
+                <button type="button" class="btn btn-light" onclick="submitForm()">Registrarse</button>
+            </form>
+            <a href="/login">¿Ya tienes una cuenta? Inicia Sesión</a>
+
+            <!-- Animación de satisfacción -->
+            <div id="satisfactionAnimation" class="success-message">
+                <span class="validation-icon">&#10003;</span> ¡Registro exitoso! Has sido registrado satisfactoriamente.
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (Asegúrate de incluir la biblioteca de Bootstrap y Popper.js) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        function submitForm() {
+            var form = document.getElementById('registrationForm');
+            if (form.checkValidity()) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/register', true);
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        var satisfactionAnimation = document.getElementById('satisfactionAnimation');
+                        satisfactionAnimation.style.display = 'block';
+                        form.classList.add('was-validated');
+                    }
+                };
+                var formData = new FormData(form);
+                xhr.send(new URLSearchParams(formData));
+            } else {
+                form.classList.add('was-validated');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

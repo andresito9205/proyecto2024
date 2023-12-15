@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Respuesta de PayU</title>
+</head>
+
+<body>
+    <h1>Respuesta de PayU</h1>
+
+    <% if (success) { %>
+        <p>Notificación procesada correctamente. Estado de la transacción actualizado en la base de datos.</p>
+    <% } else { %>
+        <p>Error al procesar la notificación. Por favor, verifica la firma y los datos recibidos.</p>
+    <% } %>
+
+    <p><a href="/login">Volver a la página principal</a></p>
+</body>
+
+</html>

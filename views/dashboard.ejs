@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Dashboard - Sport Center La Villa</title>
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <style>
+       body {
+           font-family: 'Poppins', sans-serif;
+           background-image: url('https://www.pereiravirtual.com/images/guia/sportcenter/sportcenter-3.jpg');
+           background-size: cover;
+           color: #ffffff;
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+           overflow: hidden;
+           position: relative;
+       }
+
+       header {
+           background-color: rgba(51, 109, 50, 0.9);
+           color: #ffffff;
+           padding: 20px 0;
+           text-align: center;
+           margin-bottom: 30px;
+       }
+
+       header h1 {
+           font-size: 2.5em;
+       }
+
+       header nav ul {
+           list-style: none;
+           padding: 0;
+           text-align: center;
+       }
+
+       header nav li {
+           display: inline-block;
+           margin: 0 15px; /* Aumenta el espacio entre elementos del menú */
+       }
+
+       header nav a {
+           text-decoration: none;
+           color: #f8ca4d;
+           font-size: 1.5em;
+           transition: color 0.3s ease;
+       }
+
+       header nav a:hover {
+           color: #ffffff; /* Cambia el color al hacer hover */
+       }
+
+       main {
+           padding: 50px 0;
+           text-align: center;
+           position: relative;
+       }
+
+       main h2, main h1 {
+           font-size: 2em;
+           margin-bottom: 30px;
+       }
+
+       main .card {
+           margin-bottom: 20px;
+           background-color: #ffffff;
+           border: none;
+           border-radius: 8px;
+           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Aumenta la sombra para dar profundidad */
+       }
+
+       main .card .card-body {
+           text-align: center;
+       }
+
+       .dashboard-image {
+           max-width: 100%;
+           height: auto;
+           border-radius: 8px;
+       }
+
+       footer {
+           background-color: rgba(51, 109, 50, 0.9);
+           color: #ffffff;
+           text-align: center;
+           padding: 10px 0;
+           position: fixed;
+           bottom: 0;
+           width: 100%;
+           font-size: 0.9em;
+       }
+
+       .highlight {
+           background-color: yellow;
+           color: black;
+       }
+
+       /* Estilos para balones de fútbol */
+       .balon {
+           width: 50px;
+           height: 50px;
+           border-radius: 50%;
+           background-color: #ffffff;
+           position: absolute;
+           animation: moverBalon 20s infinite alternate;
+       }
+
+       @keyframes moverBalon {
+           0% {
+               transform: translate(0, 0);
+           }
+           25% {
+               transform: translate(20vw, 20vh);
+           }
+           50% {
+               transform: translate(0, 40vh);
+           }
+           75% {
+               transform: translate(-20vw, 20vh);
+           }
+           100% {
+               transform: translate(0, 0);
+           }
+       }
+
+       .balon:nth-child(1), .balon:nth-child(2), .balon:nth-child(3), .balon:nth-child(4),
+       .balon:nth-child(5), .balon:nth-child(6), .balon:nth-child(7) {
+           /* Posiciones iniciales para cada balón */
+           top: 10vh;
+           left: 10vw;
+       }
+   </style>
+</head>
+
+<body>
+   <header>
+       <h1 class="display-4">Bienvenido al sistema de Reservas</h1>
+       <nav class="navbar navbar-expand-lg navbar-dark">
+           <ul class="navbar-nav mx-auto">
+               <li class="nav-item">
+                   <a class="nav-link" href="/reservas">Reserva y Paga</a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="/mis_reservas">Mis Reservas</a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="/cancelar_reservas">Cancelar Reserva</a>
+               </li>
+               <li class="nav-item">
+                   <a class="nav-link" href="/logout">Cerrar Sesión</a>
+               </li>
+           </ul>
+       </nav>
+   </header>
+
+   <main>
+       <img src="https://www.pereiravirtual.com/images/guia/sportcenter/sportcenter.jpg"
+           alt="Sport Center La Villa" class="img-fluid rounded dashboard-image">
+       <div id="webchat"></div>
+       <div class="balon"></div>
+       <div class="balon"></div>
+       <div class="balon"></div>
+       <div class="balon"></div>
+       <div class="balon"></div>
+       <div class="balon"></div>
+       <div class="balon"></div>
+   </main>
+
+   <footer class="text-white">
+       &copy; 2023 Sport Center La Villa
+   </footer>
+
+   <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+   <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+
+
+
+   <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+   <script src="//mediafiles.botpress.cloud/f099ebc4-137d-43cc-8064-a6ddda4c8b8b/webchat/bot.html"></script>
+   <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+   <script src="https://mediafiles.botpress.cloud/f099ebc4-137d-43cc-8064-a6ddda4c8b8b/webchat/config.js" defer></script>
+
+
+
+
+   
+
+   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reservas Futuristas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #006e28;
+            color: #ffffff;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1 {
+            color: #f2f8f4;
+            text-align: center;
+        }
+
+        .alert {
+            background-color: #009245;
+            border-color: #009245;
+            color: #ffffff;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .form-group label {
+            color: #f4f7f6;
+            font-size: 1rem;
+            display: block;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-custom {
+            background-color: #e2890d;
+            border-color: #e2890d;
+            font-weight: bold;
+        }
+
+        .btn-custom:hover {
+            background-color: #009245;
+            border-color: #009245;
+        }
+
+        .form-control {
+            border-color: #000000;
+            max-width: 50%;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.btn-container button,
+.btn-container a {
+    flex: 1; /* Hace que los botones ocupen el mismo espacio */
+}
+
+.btn-container button {
+    margin-right: 4px; /* Ajusta el margen entre los botones según sea necesario */
+}
+
+.btn-container a {
+    margin-left: 70px; /* Ajusta el margen izquierdo para mover el botón hacia la derecha */
+}
+
+
+
+        .row .card {
+            background-color: #009245;
+            border: none;
+            color: #ffffff;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .row .card img {
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        .row .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 0;
+            margin-top: 10px;
+        }
+
+        .row .card-body {
+            padding: 20px;
+        }
+
+        .row .card p {
+            margin-bottom: 0;
+            font-size: 1.2rem;
+        }
+
+
+        #precio-cancha-container {
+    background-color: #009245;
+    color: #ffffff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+#precio-cancha {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Reserva Tu Cancha   </h1>
+
+        <!-- Agrega un mensaje de confirmación cuando el usuario selecciona una cancha -->
+        <div id="confirmation" class="alert alert-success" style="display: none;">
+            Cancha seleccionada con éxito.
+        </div>
+
+        <!-- Nuevo elemento para mostrar el precio de la cancha seleccionada -->
+        <div id="precio-cancha-container">
+            Precio: $<span id="precio-cancha"></span>
+        </div>
+
+        <form action="/reservas" method="post">
+            <div class="form-group">
+                <label for="cancha">Selecciona una cancha</label>
+                <select class="form-control" name="cancha" id="cancha" onchange="updateAmount()">
+                    <% for (const cancha of canchas) { %>
+                        <option value="<%= cancha.id %>" data-precio="<%= cancha.precio %>"><%= cancha.nombre %></option>
+                    <% } %>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="fecha">Fecha</label>
+                <input type="date" class="form-control" name="fecha" id="fecha"
+                    min="<%= new Date().toISOString().split('T')[0] %>">
+            </div>
+            <div class="form-group">
+                <label for="hora">Hora</label>
+                <select class="form-control" name="hora" id="hora">
+                    <% const horaActual = new Date().getHours(); %>
+                    <% for (let i = horaActual; i <= 23; i += 2) { %>
+                        <option value="<%= i %>:00"><%= i %>:00 - <%= i + 2 %>:00</option>
+                    <% } %>
+                </select>
+
+                <div class="btn-container">
+                    <button type="submit" class="btn btn-custom">Reservar</button>
+                    <a href="/dashboard" class="btn btn-custom mt-2">Regresar al Panel Principal</a>
+                </div>
+            </form>
+
+            <% if (reservaExitosa) { %>
+                <div class="alert alert-success">
+                    La reserva se realizó correctamente.
+                    <a href="/pago " class="btn btn-custom mt-2">Ir a Pagos</a>
+                </div>
+            <% } %>
+
+            <div id="confirmation" class="alert alert-success" style="display: none;">
+                Fecha y hora establecidas con éxito.
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <% for (const cancha of canchas) { %>
+                <div class="col-md-4">
+                    <div class="card cancha-card">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= cancha.nombre %></h5>
+                            <p>Precio: <%= cancha.precio %></p>
+                            <img src="https://www.pereiravirtual.com/images/guia/sportcenter/sportcenter-3.jpg"
+                                alt="<%= cancha.nombre %>">
+                            <p>Disponibilidad: <%= cancha.estado %></p>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <script>
+            function updateAmount() {
+                var select = document.getElementById('cancha');
+                var precioContainer = document.getElementById('precio-cancha');
+
+                var selectedOption = select.options[select.selectedIndex];
+                var precioCancha = selectedOption.getAttribute('data-precio');
+
+                precioContainer.textContent = precioCancha;
+            }
+
+            // Llama directamente a updateAmount() cuando se carga la página
+            updateAmount();
+        </script>
+    </body>
+
+</html>

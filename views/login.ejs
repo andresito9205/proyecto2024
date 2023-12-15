@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #eaf3eade;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-logo,
+        .login-form {
+            flex: 1;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-logo img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .login-form {
+            background-color: #336d32;
+        }
+
+        .login-form h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #f8ca4d;
+        }
+
+        .login-form label {
+            font-size: 14px;
+            color: #f8ca4d;
+        }
+
+        .login-form input {
+            background-color: #fff;
+            border: none;
+            color: #336d32;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .login-form button {
+            background-color: #f8ca4d;
+            color: #336d32;
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .login-form a {
+            color: #f8ca4d;
+            text-decoration: none;
+            margin-top: 15px;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-logo">
+            <!-- Logo de la cancha de fútbol -->
+            <img src="https://pbs.twimg.com/profile_images/1466030286458740737/1QJru6Qn_400x400.jpg" class="img-fluid rounded-lg" alt="Logo de la cancha de fútbol">
+        </div>
+        <div class="login-form">
+            <!-- Título de inicio de sesión -->
+            <h2 class="text-bold mb-4">Inicia Sesión</h2>
+
+             <!-- Formulario de inicio de sesión -->
+            <form action="/auth" method="POST">
+                <!-- Campo de entrada para el nombre de usuario -->
+                <div class="form-group">
+                    <label for="name">Usuario</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Tu usuario" required>
+                </div>
+
+
+                 <!-- Campo de entrada para la contraseña -->
+                <div class="form-group">
+                    <label for="pass">Contraseña</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" name="pass" id="pass" placeholder="Tu contraseña" required>
+                        <!-- Botón para mostrar/ocultar la contraseña -->
+                        <div class="input-group-append">
+                            <span class="input-group-text password-toggle">&#x1F441;</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Botón de envío del formulario -->
+                <button type="submit" class="btn btn-light">Iniciar Sesión</button>
+            </form>
+
+            <!-- Enlace para registrarse -->
+            <a href="register">¿No tienes una cuenta? Regístrate</a>
+
+            
+        </div>
+    </div>
+
+  
+    
+
+
+<!-- JavaScript para mostrar/ocultar la contraseña y enviar la solicitud de inicio de sesión -->
+    <script>
+        // EventListener para el botón de mostrar/ocultar contraseña
+        document.querySelector('.password-toggle').addEventListener('click', function () {
+          var passwordInput = document.getElementById('pass');
+          if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+          } else {
+            passwordInput.type = 'password';
+          }
+        });
+     // EventListener para el botón de inicio de sesión
+        // En el evento de clic del botón de inicio de sesión
+        function login() {
+          // Enviar la solicitud de inicio de sesión al back-end
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/auth');
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.send(JSON.stringify({
+            name: document.getElementById('name').value,
+            pass: document.getElementById('pass').value
+          }));
+    
+          // Si el inicio de sesión es exitoso
+          xhr.onload = function () {
+            if (xhr.status === 200) {
+              // Redirigir al tablero
+              window.location.href = 'dashboard.html';
+            } else {
+              // Mostrar un mensaje de error
+              alert('Error al iniciar sesión.');
+            }
+          };
+        }
+      // EventListener para el clic del botón de inicio de sesión
+
+
+
+      
+        // Escuchar el evento de clic del botón de inicio de sesión
+        document.getElementById('login-button').addEventListener('click', login);
+      </script>
+
+
+
+    <!-- Agrega esto donde quieras mostrar el mensaje de error -->
+<!-- Agrega este div para mostrar mensajes de error -->
+<div id="errorMessage" style="color: red; margin-top: 10px;"></div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

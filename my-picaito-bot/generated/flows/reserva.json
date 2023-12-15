@@ -1,0 +1,49 @@
+{
+    "id": "reserva",
+    "name": "Reserva de Canchas",
+    "root": "inicio",
+    "catchAll": "default",
+    "graph": {
+      "inicio": {
+        "onEnter": [
+          {
+            "type": "text",
+            "text": "¡Bienvenido a El Picaito! ¿En qué puedo ayudarte hoy?"
+          }
+        ],
+        "transitions": {
+          "reservar": "reservar"
+        }
+      },
+      "reservar": {
+        "onEnter": [
+          {
+            "type": "text",
+            "text": "¿En qué día y hora te gustaría reservar una cancha?"
+          }
+        ],
+        "transitions": {
+          "finalizar": "finalizar"
+        }
+      },
+      "finalizar": {
+        "onEnter": [
+          {
+            "type": "text",
+            "text": "¡Perfecto! Tu reserva ha sido registrada."
+          }
+        ],
+        "transitions": {}
+      },
+      "default": {
+        "onEnter": [
+          {
+            "type": "text",
+            "text": "Lo siento, no entendí. ¿Puedes repetir?"
+          }
+        ],
+        "transitions": {}
+      }
+    }
+  }
+  
